@@ -167,14 +167,26 @@ public class Settings {
 
 		Properties properties;
 
-		if (args.length > 4) {
-			putErr(ERR_ARGS);
+		while (i != args.length) {
+			try {
+				if (args[i].charAt(0) == '-' && args[i].charAt(1) == '-') {
+					break;
+				}
+				i++;
+			}
+			catch (IndexOutOfBoundsException e) {
+				putErr("The parameter should be of the form: --nameParam=count");
+			}
 		}
+
+//		if (args.length > 5) {
+//			putErr(ERR_ARGS);
+//		}
 		while (i < args.length) {
 			parsingParam(args[i]);
 			++i;
 		}
-		properties = loadProperties("src/ " + propertiesPath + ".properties");
+		properties = loadProperties(propertiesPath);
 		enemy = parsingFieldChar(properties,"enemy.char");
 		player = parsingFieldChar(properties, "player.char");
 		wall = parsingFieldChar(properties, "wall.char");
