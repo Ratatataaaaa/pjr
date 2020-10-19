@@ -178,10 +178,6 @@ public class Settings {
 				putErr("The parameter should be of the form: --nameParam=count");
 			}
 		}
-
-//		if (args.length > 5) {
-//			putErr(ERR_ARGS);
-//		}
 		while (i < args.length) {
 			parsingParam(args[i]);
 			++i;
@@ -201,19 +197,5 @@ public class Settings {
 			putErr("One of the values responsible for the parameters of the map is not filled");
 		}
 		veryLongCheckEquals();
-		//Тестовый вывод. На финалке - удалить
-//		System.out.println(enemy);
-//		System.out.println(player);
-//		System.out.println(wall);
-//		System.out.println(goal);
-//		System.out.println(empty);
-//		System.out.println(enemyColor);
-//		System.out.println(playerColor);
-//		System.out.println(wallColor);
-//		System.out.println(goalColor);
-//		System.out.println(emptyColor);
-//		System.out.println(size);
-//		System.out.println(enemiesCount);
-//		System.out.println(wallsCount);
 	}
 }

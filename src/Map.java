@@ -19,13 +19,11 @@ public class Map {
 	public static final String ANSI_CYAN = "\u001B[36m";
 	public static final String ANSI_WHITE = "\u001B[37m";
 
-
 	private Settings set;
 	private Point player;
 	private Point[] enemies;
 	private Point[][] map;
 	final Random random = new Random();
-
 
 	public static int findCurEnemy(int x, int y, Point [] enemies) {
 		int index = 0;
@@ -147,5 +145,4 @@ public class Map {
 			System.out.println();
 		}
 	}
-
 }
