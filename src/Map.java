@@ -50,8 +50,8 @@ public class Map {
 			enemies[i] = new Point(set.enemy, set.enemyColor, random.nextInt(set.size), random.nextInt(set.size));
 			enemies[i].step = 9;
 		}
-//		player = new Point(set.player, set.playerColor, random.nextInt(set.size), random.nextInt(set.size));
-		player = new Point(set.player, set.playerColor, 15, 15);
+		player = new Point(set.player, set.playerColor, random.nextInt(set.size), random.nextInt(set.size));
+//		player = new Point(set.player, set.playerColor, 15, 15);
 		map = new Point[set.size][set.size];
 
 		for (int y = 0; y < set.size; y++) {

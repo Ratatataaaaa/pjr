@@ -42,6 +42,11 @@ public class Program {
 		return false;
 	}
 
+	public static void clearScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+
 	public static void main(String[] args) {
 		Settings settings = new Settings(args);
 		Map map = new Map(settings);
@@ -51,6 +56,7 @@ public class Program {
 		while (1 == 1) {
 			arg = scanner.next();
 			if (parsKey(arg, settings)) {
+				clearScreen();
 				map.printMap();
 			} else if (settings.mode.equals("USER")) {
 				System.out.println("Enter a numeric value: W - 87 | A - 65 | S - 83 | D - 68");
