@@ -19,10 +19,10 @@ public class Map {
 	public static final String ANSI_CYAN = "\u001B[36m";
 	public static final String ANSI_WHITE = "\u001B[37m";
 
-	private Settings set;
-	private Point player;
-	private Point[] enemies;
-	private Point[][] map;
+	private static Settings set;
+	private static Point player;
+	private static Point[] enemies;
+	private static Point[][] map;
 	final Random random = new Random();
 
 	public static int findCurEnemy(int x, int y, Point [] enemies) {
@@ -44,28 +44,28 @@ public class Map {
 
 		int indexEnemy;
 
-		this.set = settings;
-		enemies = new Point[this.set.enemiesCount];
+		set = settings;
+		enemies = new Point[set.enemiesCount];
 		for(int i = 0; i < set.enemiesCount; i++) {
-			enemies[i] = new Point(set.enemy, set.enemyColor, random.nextInt(this.set.size), random.nextInt(this.set.size));
+			enemies[i] = new Point(set.enemy, set.enemyColor, random.nextInt(set.size), random.nextInt(set.size));
 			enemies[i].step = 9;
 		}
-		player = new Point(set.player, set.playerColor, random.nextInt(this.set.size), random.nextInt(this.set.size));
-		map = new Point[this.set.size][this.set.size];
+		player = new Point(set.player, set.playerColor, random.nextInt(set.size), random.nextInt(set.size));
+		map = new Point[set.size][set.size];
 
 		for (int y = 0; y < set.size; y++) {
 			for (int x = 0; x < set.size; x++) {
 				if (x == player.xPos && y == player.yPos) {
-					this.map[y][x] = player;
+					map[y][x] = player;
 					player.step = 0;
 				}
 				else if ((indexEnemy = findCurEnemy(x, y, enemies)) >= 0) {
-					this.map[y][x] = enemies[indexEnemy];
+					map[y][x] = enemies[indexEnemy];
 				}
 				else {
-					this.map[y][x] = new Point(set.empty, set.emptyColor, x, y);
+					map[y][x] = new Point(set.empty, set.emptyColor, x, y);
 				}
-				this.map[y][x].step = 8;
+				map[y][x].step = 8;
 			}
 		}
 	}
@@ -141,15 +141,15 @@ public class Map {
 		for (int y = 0; y < set.size; y++) {
 			for (int x = 0; x < set.size; x++) {
 				if (map[y][x].type == set.empty) {
-					putColorChar(this.map[y][x]);
+					putColorChar(map[y][x]);
 				}
-				putColorBack(this.map[y][x]);
+				putColorBack(map[y][x]);
 			}
 			System.out.println();
 		}
 	}
 
-	public void movePoint(Point pers, Point finish) {
+	public static void movePoint(Point pers, Point finish) {
 		Point		temp;
 
 //		pers.prinInf();
@@ -161,7 +161,7 @@ public class Map {
 //		finish.prinInf();
 	}
 
-	public void movePlayer(Key key) {
+	public static boolean movePlayer(Key key) {
 		Point	toMove;
 
 		switch (key) {
@@ -172,23 +172,24 @@ public class Map {
 			case LEFT:
 
 			case RIGHT:
-				if (this.player.xPos == set.size - 1)
+				if (player.xPos == set.size - 1)
 					break;
 				toMove = map[player.yPos][player.xPos + 1];
 
-				this.movePoint(map[player.yPos][player.xPos],toMove);
+				movePoint(map[player.yPos][player.xPos],toMove);
 				player = map[toMove.yPos][toMove.xPos];
 				break;
 			default:break;
 		}
+		return true;
 	}
 
-	public void printSteps() {
+	public static void printSteps() {
 
 		for (int y = 0; y < set.size; y++) {
 			for (int x = 0; x < set.size; x++) {
 				if (map[y][x].type == set.empty) {
-					System.out.print(this.map[y][x].step);
+					System.out.print(map[y][x].step);
 				}
 			}
 			System.out.println();

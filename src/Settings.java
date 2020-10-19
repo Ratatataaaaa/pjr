@@ -5,21 +5,23 @@ import java.util.Properties;
 
 public class Settings {
 
-	public static final String ERR_ARGS = "Enter 4 parameters: --enemiesCount=10 --wallsCount=10 --size=30 --profile=production";
-	public char			enemy;
-	public String		enemyColor;
-	public char			wall;
-	public String		wallColor;
-	public char			player;
-	public String		playerColor;
-	public char			goal;
-	public String		goalColor;
-	public char			empty;
-	public String		emptyColor;
-	public Integer		size;
-	public Integer		enemiesCount;
-	public Integer		wallsCount;
-	private String      propertiesPath;
+	public char enemy;
+	public String enemyColor;
+	public char wall;
+	public String wallColor;
+	public char player;
+	public String playerColor;
+	public char goal;
+	public String goalColor;
+	public char empty;
+	public String emptyColor;
+	public Integer size;
+	public Integer enemiesCount;
+	public Integer wallsCount;
+	private String propertiesPath;
+	public boolean enemyWalk;
+	public int endGame;
+	public String mode;
 
 	public void putErr(String err) {
 		System.err.println(err);
@@ -27,13 +29,12 @@ public class Settings {
 	}
 
 	private Properties loadProperties(String filePath) {
-		File file = new File(filePath);
 		Properties properties = new Properties();
 
 		try {
+			File file = new File(filePath);
 			properties.load(new FileReader(file));
-		}
-		catch (IOException e) {
+		} catch (IOException | NullPointerException e) {
 			putErr("File properties not found");
 		}
 		return properties;
@@ -47,15 +48,14 @@ public class Settings {
 			if (count < 0) {
 				putErr("The number cannot be negative: " + line);
 			}
-		}
-		catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			putErr("The input parameter must be an integer" + line);
 		}
 		return count;
 	}
 
 	private void parsingParam(String line) {
-		String [] splitParam;
+		String[] splitParam;
 
 		splitParam = line.split("=");
 		if (splitParam.length == 2) {
@@ -76,8 +76,7 @@ public class Settings {
 					putErr("The parameter should be of the form: --nameParam=count");
 					break;
 			}
-		}
-		else {
+		} else {
 			putErr("The parameter should be of the form: --nameParam=count");
 		}
 	}
@@ -162,7 +161,7 @@ public class Settings {
 		}
 	}
 
-	public Settings(String [] args) {
+	public Settings(String[] args) {
 		int i = 0;
 
 		Properties properties;
@@ -173,8 +172,7 @@ public class Settings {
 					break;
 				}
 				i++;
-			}
-			catch (IndexOutOfBoundsException e) {
+			} catch (IndexOutOfBoundsException e) {
 				putErr("The parameter should be of the form: --nameParam=count");
 			}
 		}
@@ -183,7 +181,7 @@ public class Settings {
 			++i;
 		}
 		properties = loadProperties(propertiesPath);
-		enemy = parsingFieldChar(properties,"enemy.char");
+		enemy = parsingFieldChar(properties, "enemy.char");
 		player = parsingFieldChar(properties, "player.char");
 		wall = parsingFieldChar(properties, "wall.char");
 		goal = parsingFieldChar(properties, "goal.char");
@@ -193,6 +191,7 @@ public class Settings {
 		wallColor = parsingFieldColor(properties, "wall.color");
 		goalColor = parsingFieldColor(properties, "goal.color");
 		emptyColor = parsingFieldColor(properties, "empty.color");
+		mode = parsingFieldColor(properties, "mode");
 		if (size == null || enemiesCount == null || wallsCount == null) {
 			putErr("One of the values responsible for the parameters of the map is not filled");
 		}
