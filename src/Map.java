@@ -1,5 +1,3 @@
-package rush00;
-
 import java.util.Random;
 
 public class Map {

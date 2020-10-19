@@ -1,5 +1,3 @@
-package rush00;
-
 enum TypePoint {
 	WALL,
 	EMPTY,
@@ -18,9 +16,9 @@ enum Key {
 public class Program {
 
 	public static void main(String [] args) {
-		Settings 		settings = new Settings();
-		Map 			zzzz = new Map(settings);
-		zzzz.printMap();
+		Settings 		settings = new Settings(args);
+//		Map 			zzzz = new Map(settings);
+//		zzzz.printMap();
 	}
 	
 

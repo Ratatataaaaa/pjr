@@ -1,5 +1,3 @@
-package rush00;
-
 public class Point {
 	public char					type;
 	public Integer				xPos;
