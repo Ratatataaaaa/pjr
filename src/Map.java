@@ -50,7 +50,8 @@ public class Map {
 			enemies[i] = new Point(set.enemy, set.enemyColor, random.nextInt(set.size), random.nextInt(set.size));
 			enemies[i].step = 9;
 		}
-		player = new Point(set.player, set.playerColor, random.nextInt(set.size), random.nextInt(set.size));
+//		player = new Point(set.player, set.playerColor, random.nextInt(set.size), random.nextInt(set.size));
+		player = new Point(set.player, set.playerColor, 15, 15);
 		map = new Point[set.size][set.size];
 
 		for (int y = 0; y < set.size; y++) {
@@ -149,16 +150,40 @@ public class Map {
 		}
 	}
 
-	public static void movePoint(Point pers, Point finish) {
-		Point		temp;
+	public static void movePoint(Integer yPosStart, Integer xPosStart, Integer yPosFin, Integer xPosFin, Point cur) {
+		Point empty = new Point(set.empty, set.emptyColor, xPosStart, yPosStart);
 
-//		pers.prinInf();
-//		finish.prinInf();
-		temp = pers;
-		pers = finish;
-		finish = temp;
-//		pers.prinInf();
-//		finish.prinInf();
+		if (cur.type == player.type) {
+			if (player.yPos < yPosFin) {
+				player.yPos++;
+			}
+			else if (player.yPos > yPosFin) {
+				player.yPos--;
+			}
+			else if (player.xPos < xPosFin) {
+				player.xPos++;
+			}
+			else if (player.xPos > xPosFin) {
+				player.xPos--;
+			}
+			map[yPosFin][xPosFin] = player;
+		}
+		else {
+			if (enemies[0].yPos < yPosFin) {
+				enemies[0].yPos++;
+			}
+			else if (enemies[0].yPos > yPosFin) {
+				enemies[0].yPos--;
+			}
+			else if (enemies[0].xPos < xPosFin) {
+				enemies[0].xPos++;
+			}
+			else if (enemies[0].xPos > xPosFin) {
+				enemies[0].xPos--;
+			}
+			map[yPosFin][xPosFin] = enemies[0];
+		}
+		map[yPosStart][xPosStart] = empty;
 	}
 
 	public static boolean movePlayer(Key key) {
@@ -166,18 +191,25 @@ public class Map {
 
 		switch (key) {
 			case UP:
-
+				if (player.yPos == 0)
+					break;
+				movePoint(player.yPos, player.xPos, player.yPos - 1, player.xPos, player);
+				break;
 			case DOWN:
-
+				if (player.yPos == set.size)
+					break;
+				movePoint(player.yPos, player.xPos, player.yPos + 1, player.xPos , player);
+				break;
 			case LEFT:
+				if (player.xPos == 0)
+					break;
+				movePoint(player.yPos, player.xPos, player.yPos, player.xPos - 1, player);
+				break;
 
 			case RIGHT:
-				if (player.xPos == set.size - 1)
+				if (player.xPos == set.size)
 					break;
-				toMove = map[player.yPos][player.xPos + 1];
-
-				movePoint(map[player.yPos][player.xPos],toMove);
-				player = map[toMove.yPos][toMove.xPos];
+				movePoint(player.yPos, player.xPos, player.yPos, player.xPos + 1, player);
 				break;
 			default:break;
 		}
