@@ -7,21 +7,21 @@ public class Settings {
 
 	public static final String ERR_ARGS = "Enter 4 parameters: --enemiesCount=10 --wallsCount=10 --size=30 --profile=production";
 	public char			enemy;
-	public char			enemyColor;
+	public String		enemyColor;
 	public char			wall;
-	public char			wallColor;
+	public String		wallColor;
 	public char			player;
-	public char			playerColor;
+	public String		playerColor;
 	public char			goal;
-	public char			goalColor;
+	public String		goalColor;
 	public char			empty;
-	public char			emptyColor;
+	public String		emptyColor;
 	public Integer		size;
 	public Integer		enemiesCount;
 	public Integer		wallsCount;
 	private String      propertiesPath;
 
-	public static void putErr(String err) {
+	public void putErr(String err) {
 		System.err.println(err);
 		System.exit(-1);
 	}
@@ -95,7 +95,7 @@ public class Settings {
 		return tempParam.charAt(0);
 	}
 
-	private char parsingFieldColor(Properties properties, String name) {
+	private String parsingFieldColor(Properties properties, String name) {
 		String tempParam;
 
 		tempParam = properties.getProperty(name);
@@ -105,7 +105,7 @@ public class Settings {
 			putErr(" missing or filled in incorrectly");
 		}
 		assert tempParam != null;
-		return tempParam.charAt(0);
+		return tempParam;
 	}
 
 	private void veryLongCheckEquals() {
@@ -121,21 +121,6 @@ public class Settings {
 		if (enemy == empty) {
 			putErr("The values of enemy.char and empty.char are the same");
 		}
-		if (enemy == enemyColor) {
-			putErr("The values of enemy.char and enemy.color are the same");
-		}
-		if (enemy == playerColor) {
-			putErr("The values of enemy.char and player.color are the same");
-		}
-		if (enemy == wallColor) {
-			putErr("The values of enemy.char and wall.color are the same");
-		}
-		if (enemy == goalColor) {
-			putErr("The values of enemy.char and goal.color are the same");
-		}
-		if (enemy == emptyColor) {
-			putErr("The values of enemy.char and empty.color are the same");
-		}
 		if (player == wall) {
 			putErr("The values of player.char and wall.char are the same");
 		}
@@ -145,94 +130,34 @@ public class Settings {
 		if (player == empty) {
 			putErr("The values of player.char and empty.char are the same");
 		}
-		if (player == enemyColor) {
-			putErr("The values of player.char and enemy.color are the same");
-		}
-		if (player == playerColor) {
-			putErr("The values of player.char and player.color are the same");
-		}
-		if (player == wallColor) {
-			putErr("The values of player.char and wall.color are the same");
-		}
-		if (player == goalColor) {
-			putErr("The values of player.char and goal.color are the same");
-		}
-		if (player == emptyColor) {
-			putErr("The values of player.char and empty.color are the same");
-		}
 		if (wall == goal) {
 			putErr("The values of wall.char and goal.char are the same");
 		}
 		if (wall == empty) {
 			putErr("The values of wall.char and empty.char are the same");
 		}
-		if (wall == enemyColor) {
-			putErr("The values of wall.char and enemy.color are the same");
-		}
-		if (wall == playerColor) {
-			putErr("The values of wall.char and player.color are the same");
-		}
-		if (wall == wallColor) {
-			putErr("The values of wall.char and wall.color are the same");
-		}
-		if (wall == goalColor) {
-			putErr("The values of wall.char and goal.color are the same");
-		}
-		if (wall == emptyColor) {
-			putErr("The values of wall.char and empty.color are the same");
-		}
 		if (goal == empty) {
 			putErr("The values of goal.char and empty.char are the same");
 		}
-		if (goal == enemyColor) {
-			putErr("The values of goal.char and enemy.color are the same");
-		}
-		if (goal == playerColor) {
-			putErr("The values of goal.char and player.color are the same");
-		}
-		if (goal == wallColor) {
-			putErr("The values of goal.char and wall.color are the same");
-		}
-		if (goal == goalColor) {
-			putErr("The values of goal.char and goal.color are the same");
-		}
-		if (goal == emptyColor) {
-			putErr("The values of goal.char and empty.color are the same");
-		}
-		if (empty == enemyColor) {
-			putErr("The values of empty.char and enemy.color are the same");
-		}
-		if (empty == playerColor) {
-			putErr("The values of empty.char and player.color are the same");
-		}
-		if (empty == wallColor) {
-			putErr("The values of empty.char and wall.color are the same");
-		}
-		if (empty == goalColor) {
-			putErr("The values of empty.char and goal.color are the same");
-		}
-		if (empty == emptyColor) {
-			putErr("The values of empty.char and empty.color are the same");
-		}
-		if (enemyColor == playerColor) {
+		if (enemyColor.equals(playerColor)) {
 			putErr("The values of enemy.color and player.color are the same");
 		}
-		if (enemyColor == wallColor) {
+		if (enemyColor.equals(wallColor)) {
 			putErr("The values of enemy.color and wall.color are the same");
 		}
-		if (enemyColor == goalColor) {
+		if (enemyColor.equals(goalColor)) {
 			putErr("The values of enemy.color and goal.color are the same");
 		}
-		if (enemyColor == emptyColor) {
+		if (enemyColor.equals(emptyColor)) {
 			putErr("The values of enemy.color and empty.color are the same");
 		}
-		if (wallColor == goalColor) {
+		if (wallColor.equals(goalColor)) {
 			putErr("The values of wall.color and goal.color are the same");
 		}
-		if (wallColor == emptyColor) {
+		if (wallColor.equals(emptyColor)) {
 			putErr("The values of wall.color and empty.color are the same");
 		}
-		if (goalColor == emptyColor) {
+		if (goalColor.equals(emptyColor)) {
 			putErr("The values of goal.color and empty.color are the same");
 		}
 	}
@@ -265,18 +190,18 @@ public class Settings {
 		}
 		veryLongCheckEquals();
 		//Тестовый вывод. На финалке - удалить
-		System.out.println(enemy);
-		System.out.println(player);
-		System.out.println(wall);
-		System.out.println(goal);
-		System.out.println(empty);
-		System.out.println(enemyColor);
-		System.out.println(playerColor);
-		System.out.println(wallColor);
-		System.out.println(goalColor);
-		System.out.println(emptyColor);
-		System.out.println(size);
-		System.out.println(enemiesCount);
-		System.out.println(wallsCount);
+//		System.out.println(enemy);
+//		System.out.println(player);
+//		System.out.println(wall);
+//		System.out.println(goal);
+//		System.out.println(empty);
+//		System.out.println(enemyColor);
+//		System.out.println(playerColor);
+//		System.out.println(wallColor);
+//		System.out.println(goalColor);
+//		System.out.println(emptyColor);
+//		System.out.println(size);
+//		System.out.println(enemiesCount);
+//		System.out.println(wallsCount);
 	}
 }
