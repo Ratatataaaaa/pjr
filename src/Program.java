@@ -1,3 +1,5 @@
+import javax.xml.bind.SchemaOutputResolver;
+
 enum TypePoint {
 	WALL,
 	EMPTY,
@@ -19,6 +21,7 @@ public class Program {
 		Settings 		settings = new Settings(args);
 		Map 			zzzz = new Map(settings);
 		zzzz.printMap();
+		zzzz.printSteps();
 	}
 	
 

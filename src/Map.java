@@ -48,6 +48,7 @@ public class Map {
 		enemies = new Point[this.set.enemiesCount];
 		for(int i = 0; i < set.enemiesCount; i++) {
 			enemies[i] = new Point(set.enemy, set.enemyColor, random.nextInt(this.set.size), random.nextInt(this.set.size));
+			enemies[i].step = 9;
 		}
 		player = new Point(set.player, set.playerColor, random.nextInt(this.set.size), random.nextInt(this.set.size));
 		map = new Point[this.set.size][this.set.size];
@@ -56,6 +57,7 @@ public class Map {
 			for (int x = 0; x < set.size; x++) {
 				if (x == player.xPos && y == player.yPos) {
 					this.map[y][x] = player;
+					player.step = 0;
 				}
 				else if ((indexEnemy = findCurEnemy(x, y, enemies)) >= 0) {
 					this.map[y][x] = enemies[indexEnemy];
@@ -63,6 +65,7 @@ public class Map {
 				else {
 					this.map[y][x] = new Point(set.empty, set.emptyColor, x, y);
 				}
+				this.map[y][x].step = 8;
 			}
 		}
 	}
@@ -141,6 +144,52 @@ public class Map {
 					putColorChar(this.map[y][x]);
 				}
 				putColorBack(this.map[y][x]);
+			}
+			System.out.println();
+		}
+	}
+
+	public void movePoint(Point pers, Point finish) {
+		Point		temp;
+
+//		pers.prinInf();
+//		finish.prinInf();
+		temp = pers;
+		pers = finish;
+		finish = temp;
+//		pers.prinInf();
+//		finish.prinInf();
+	}
+
+	public void movePlayer(Key key) {
+		Point	toMove;
+
+		switch (key) {
+			case UP:
+
+			case DOWN:
+
+			case LEFT:
+
+			case RIGHT:
+				if (this.player.xPos == set.size - 1)
+					break;
+				toMove = map[player.yPos][player.xPos + 1];
+
+				this.movePoint(map[player.yPos][player.xPos],toMove);
+				player = map[toMove.yPos][toMove.xPos];
+				break;
+			default:break;
+		}
+	}
+
+	public void printSteps() {
+
+		for (int y = 0; y < set.size; y++) {
+			for (int x = 0; x < set.size; x++) {
+				if (map[y][x].type == set.empty) {
+					System.out.print(this.map[y][x].step);
+				}
 			}
 			System.out.println();
 		}
