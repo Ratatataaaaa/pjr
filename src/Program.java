@@ -47,15 +47,18 @@ public class Program {
 		Map map = new Map(settings);
 		Scanner scanner = new Scanner(System.in);
 		String arg;
-
-		while (1 == 1) {
-			arg = scanner.next();
-			if (parsKey(arg, settings)) {
-				map.printMap();
-			} else if (settings.mode.equals("USER")) {
-				System.out.println("Enter a numeric value: W - 87 | A - 65 | S - 83 | D - 68");
-			}
-		}
+		map.printMap();
+		map.setSteps();
+		map.printSteps();
+//		while (1 == 1) {
+//			arg = scanner.next();
+//			if (parsKey(arg, settings)) {
+//				map.printMap();
+//				map.printSteps();
+//			} else if (settings.mode.equals("USER")) {
+//				System.out.println("Enter a numeric value: W - 87 | A - 65 | S - 83 | D - 68");
+//			}
+//		}
 //		Map.printSteps();
 	}
 }
