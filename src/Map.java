@@ -1,5 +1,3 @@
-import sun.misc.Queue;
-
 import java.util.Random;
 
 public class Map {
@@ -50,10 +48,10 @@ public class Map {
 		enemies = new Point[set.enemiesCount];
 		for(int i = 0; i < set.enemiesCount; i++) {
 			enemies[i] = new Point(set.enemy, set.enemyColor, random.nextInt(set.size), random.nextInt(set.size));
-			enemies[i].step = 0;
+			enemies[i].step = 9;
 		}
-		player = new Point(set.player, set.playerColor, random.nextInt(set.size), random.nextInt(set.size));
-		//player = new Point(set.player, set.playerColor, 15, 15);
+//		player = new Point(set.player, set.playerColor, random.nextInt(set.size), random.nextInt(set.size));
+		player = new Point(set.player, set.playerColor, 15, 15);
 		map = new Point[set.size][set.size];
 
 		for (int y = 0; y < set.size; y++) {
@@ -68,6 +66,7 @@ public class Map {
 				else {
 					map[y][x] = new Point(set.empty, set.emptyColor, x, y);
 				}
+				map[y][x].step = 8;
 			}
 		}
 	}
@@ -221,42 +220,11 @@ public class Map {
 
 		for (int y = 0; y < set.size; y++) {
 			for (int x = 0; x < set.size; x++) {
-				if (map[y][x].step == null)
-					System.out.print(0);
-				else
+				if (map[y][x].type == set.empty) {
 					System.out.print(map[y][x].step);
+				}
 			}
 			System.out.println();
-		}
-	}
-
-	public final Point getPlayer() {
-		return this.player;
-	}
-
-	public void setSteps() {
-		Point				next = this.getPlayer();
-
-		while (next != null) {
-			Integer				i = next.xPos;
-			Integer				j = next.yPos;
-			if (i < (this.set.size - 1) && this.map[j][i + 1].type == this.set.empty && this.map[j][i + 1].step == null) {
-				this.map[j][i + 1].step = this.map[j][i].step + 1;
-				next.addNext(this.map[j][i + 1]);
-			}
-			if (i > 0 && this.map[j][i - 1].type == this.set.empty && this.map[j][i - 1].step == null) {
-				this.map[j][i - 1].step = this.map[j][i].step + 1;
-				next.addNext(this.map[j][i - 1]);
-			}
-			if (j < (this.set.size - 1) && this.map[j + 1][i].type == this.set.empty && this.map[j + 1][i].step == null) {
-				this.map[j + 1][i].step = this.map[j][i].step + 1;
-				next.addNext(this.map[j + 1][i]);
-			}
-			if (j > 0 && this.map[j - 1][i].type == this.set.empty && this.map[j - 1][i].step == null) {
-				this.map[j - 1][i].step = this.map[j][i].step + 1;
-				next.addNext(this.map[j - 1][i]);
-			}
-			next = next.next;
 		}
 	}
 }
