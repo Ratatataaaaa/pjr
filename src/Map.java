@@ -1,4 +1,4 @@
-import java.nio.file.attribute.UserPrincipalLookupService;
+
 import java.util.Random;
 
 public class Map {
@@ -192,23 +192,27 @@ public class Map {
 			case UP:
 				if (player.yPos == 0)
 					break;
-				movePoint(player.yPos, player.xPos, player.yPos - 1, player.xPos, player);
+				toMove = map[player.yPos - 1][player.xPos];
+				movePoint2(player, toMove);
 				break;
 			case DOWN:
-				if (player.yPos == set.size)
+				if (player.yPos == set.size - 1)
 					break;
-				movePoint(player.yPos, player.xPos, player.yPos + 1, player.xPos , player);
+				toMove = map[player.yPos + 1][player.xPos];
+				movePoint2(player, toMove);
 				break;
 			case LEFT:
 				if (player.xPos == 0)
 					break;
-				movePoint(player.yPos, player.xPos, player.yPos, player.xPos - 1, player);
+				toMove = map[player.yPos][player.xPos - 1];
+				movePoint2(player, toMove);
 				break;
 
 			case RIGHT:
-				if (player.xPos == set.size)
+				if (player.xPos == set.size - 1)
 					break;
-				movePoint(player.yPos, player.xPos, player.yPos, player.xPos + 1, player);
+				toMove = map[player.yPos][player.xPos + 1];
+				movePoint2(player, toMove);
 				break;
 			default:break;
 		}
@@ -257,5 +261,18 @@ public class Map {
 			}
 			next = next.next;
 		}
+	}
+
+	public static void movePoint2(Point xxx, Point place) {
+
+		Point		temp = new Point(xxx);
+
+		temp.xPos = place.xPos;
+		temp.yPos = place.yPos;
+		place.xPos = xxx.xPos;
+		place.yPos = xxx.yPos;
+		map[xxx.yPos][xxx.xPos] = new Point(place);
+		map[temp.yPos][temp.xPos] = temp;
+		player = temp;
 	}
 }

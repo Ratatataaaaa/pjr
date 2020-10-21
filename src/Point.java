@@ -30,4 +30,12 @@ public class Point {
 			find = find.next;
 		find.next = next;
 	}
+
+	public Point(Point point) {
+		this.type = point.type;
+		this.color = point.color;
+		this.xPos = point.xPos;
+		this.yPos = point.yPos;
+		this.step = point.step;
+	}
 }
