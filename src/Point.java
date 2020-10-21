@@ -37,5 +37,6 @@ public class Point {
 		this.xPos = point.xPos;
 		this.yPos = point.yPos;
 		this.step = point.step;
+		this.next = null;
 	}
 }

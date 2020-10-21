@@ -48,16 +48,26 @@ public class Program {
 		Scanner scanner = new Scanner(System.in);
 		String arg;
 		map.printMap();
-//		map.setSteps();
-//		map.printSteps();
+		map.moveEnimies();
+		System.out.println("");
+		map.printMap();
+		map.moveEnimies();
+		System.out.println("");
+		map.printMap();
+		map.moveEnimies();
+		System.out.println("");
+		map.printMap();
+		map.moveEnimies();
+		System.out.println("");
+		map.printMap();
 //
-		while (1 == 1) {
-			arg = scanner.next();
-			if (parsKey(arg, settings)) {
-				map.printMap();
-			} else if (settings.mode.equals("USER")) {
-				System.out.println("Enter a numeric value: W - 87 | A - 65 | S - 83 | D - 68");
-			}
-		}
+//		while (1 == 1) {
+//			arg = scanner.next();
+//			if (parsKey(arg, settings)) {
+//				map.printMap();
+//			} else if (settings.mode.equals("USER")) {
+//				System.out.println("Enter a numeric value: W - 87 | A - 65 | S - 83 | D - 68");
+//			}
+//		}
 	}
 }

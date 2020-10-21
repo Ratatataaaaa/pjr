@@ -149,42 +149,6 @@ public class Map {
 		}
 	}
 
-	public static void movePoint(Integer yPosStart, Integer xPosStart, Integer yPosFin, Integer xPosFin, Point cur) {
-		Point empty = new Point(set.empty, set.emptyColor, xPosStart, yPosStart);
-
-		if (cur.type == player.type) {
-			if (player.yPos < yPosFin) {
-				player.yPos++;
-			}
-			else if (player.yPos > yPosFin) {
-				player.yPos--;
-			}
-			else if (player.xPos < xPosFin) {
-				player.xPos++;
-			}
-			else if (player.xPos > xPosFin) {
-				player.xPos--;
-			}
-			map[yPosFin][xPosFin] = player;
-		}
-		else {
-			if (enemies[0].yPos < yPosFin) {
-				enemies[0].yPos++;
-			}
-			else if (enemies[0].yPos > yPosFin) {
-				enemies[0].yPos--;
-			}
-			else if (enemies[0].xPos < xPosFin) {
-				enemies[0].xPos++;
-			}
-			else if (enemies[0].xPos > xPosFin) {
-				enemies[0].xPos--;
-			}
-			map[yPosFin][xPosFin] = enemies[0];
-		}
-		map[yPosStart][xPosStart] = empty;
-	}
-
 	public static boolean movePlayer(Key key) {
 		Point	toMove;
 
@@ -193,26 +157,25 @@ public class Map {
 				if (player.yPos == 0)
 					break;
 				toMove = map[player.yPos - 1][player.xPos];
-				movePoint2(player, toMove);
+				movePoint(player, toMove, -1);
 				break;
 			case DOWN:
 				if (player.yPos == set.size - 1)
 					break;
 				toMove = map[player.yPos + 1][player.xPos];
-				movePoint2(player, toMove);
+				movePoint(player, toMove, -1);
 				break;
 			case LEFT:
 				if (player.xPos == 0)
 					break;
 				toMove = map[player.yPos][player.xPos - 1];
-				movePoint2(player, toMove);
+				movePoint(player, toMove, -1);
 				break;
-
 			case RIGHT:
 				if (player.xPos == set.size - 1)
 					break;
 				toMove = map[player.yPos][player.xPos + 1];
-				movePoint2(player, toMove);
+				movePoint(player, toMove, -1);
 				break;
 			default:break;
 		}
@@ -233,37 +196,37 @@ public class Map {
 		}
 	}
 
-	public final Point getPlayer() {
-		return this.player;
+	public static final Point getPlayer() {
+		return player;
 	}
 
-	public void setSteps() {
-		Point				next = this.getPlayer();
+	public static void setSteps() {
+		Point				next = getPlayer();
 
 		while (next != null) {
 			Integer				i = next.xPos;
 			Integer				j = next.yPos;
-			if (i < (this.set.size - 1) && this.map[j][i + 1].type == this.set.empty && this.map[j][i + 1].step == null) {
-				this.map[j][i + 1].step = this.map[j][i].step + 1;
-				next.addNext(this.map[j][i + 1]);
+			if (i < (set.size - 1) && map[j][i + 1].type == set.empty && map[j][i + 1].step == null) {
+				map[j][i + 1].step = map[j][i].step + 1;
+				next.addNext(map[j][i + 1]);
 			}
-			if (i > 0 && this.map[j][i - 1].type == this.set.empty && this.map[j][i - 1].step == null) {
-				this.map[j][i - 1].step = this.map[j][i].step + 1;
-				next.addNext(this.map[j][i - 1]);
+			if (i > 0 && map[j][i - 1].type == set.empty && map[j][i - 1].step == null) {
+				map[j][i - 1].step = map[j][i].step + 1;
+				next.addNext(map[j][i - 1]);
 			}
-			if (j < (this.set.size - 1) && this.map[j + 1][i].type == this.set.empty && this.map[j + 1][i].step == null) {
-				this.map[j + 1][i].step = this.map[j][i].step + 1;
-				next.addNext(this.map[j + 1][i]);
+			if (j < (set.size - 1) && map[j + 1][i].type == set.empty && map[j + 1][i].step == null) {
+				map[j + 1][i].step = map[j][i].step + 1;
+				next.addNext(map[j + 1][i]);
 			}
-			if (j > 0 && this.map[j - 1][i].type == this.set.empty && this.map[j - 1][i].step == null) {
-				this.map[j - 1][i].step = this.map[j][i].step + 1;
-				next.addNext(this.map[j - 1][i]);
+			if (j > 0 && map[j - 1][i].type == set.empty && map[j - 1][i].step == null) {
+				map[j - 1][i].step = map[j][i].step + 1;
+				next.addNext(map[j - 1][i]);
 			}
 			next = next.next;
 		}
 	}
 
-	public static void movePoint2(Point xxx, Point place) {
+	public static void movePoint(Point xxx, Point place, Integer who) {
 
 		Point		temp = new Point(xxx);
 
@@ -273,6 +236,62 @@ public class Map {
 		place.yPos = xxx.yPos;
 		map[xxx.yPos][xxx.xPos] = new Point(place);
 		map[temp.yPos][temp.xPos] = temp;
-		player = temp;
+		if (who == -1)
+			player = temp;
+		else {
+			enemies[who] = temp;
+		}
 	}
+
+	public static void clearSteps() {
+		for (int y = 0; y < set.size; y++) {
+			for (int x = 0; x < set.size; x++) {
+				if (map[y][x].type == set.empty) {
+					map[y][x].step = null;
+				}
+				map[y][x].next = null;
+			}
+		}
+	}
+
+	public static void moveEnimies() {
+		Integer		i = 0;
+		Point		toMove = enemies[i];
+		Point		go = toMove;
+		Integer		perfectStep = 101;
+
+		//setSteps();
+		while (i < set.enemiesCount) {
+			setSteps();
+			printSteps();
+			if (	toMove.yPos - 1 >= 0 &&
+					map[toMove.yPos - 1][toMove.xPos].type == set.empty &&
+					perfectStep > map[toMove.yPos - 1][toMove.xPos].step) {
+				perfectStep = map[toMove.yPos - 1][toMove.xPos].step;
+				go = map[toMove.yPos - 1][toMove.xPos];
+			}
+			else if (	toMove.yPos + 1 < set.size - 1 &&
+						map[toMove.yPos + 1][toMove.xPos].type == set.empty &&
+						perfectStep > map[toMove.yPos + 1][toMove.xPos].step) {
+				perfectStep = map[toMove.yPos + 1][toMove.xPos].step;
+				go = map[toMove.yPos + 1][toMove.xPos];
+			}
+			else if (	toMove.xPos + 1 < set.size - 1 &&
+						map[toMove.yPos][toMove.xPos + 1].type == set.empty &&
+						perfectStep > map[toMove.yPos][toMove.xPos + 1].step) {
+				perfectStep = map[toMove.yPos][toMove.xPos + 1].step;
+				go = map[toMove.yPos][toMove.xPos + 1];
+			}
+			else if (	toMove.xPos - 1 >= 0 &&
+						map[toMove.yPos][toMove.xPos - 1].type == set.empty &&
+						perfectStep > map[toMove.yPos][toMove.xPos - 1].step) {
+				perfectStep = map[toMove.yPos][toMove.xPos - 1].step;
+				go = map[toMove.yPos][toMove.xPos -1];
+			}
+			movePoint(enemies[i], go, i);
+			clearSteps();
+			++i;
+		}
+	}
+
 }
