@@ -257,36 +257,38 @@ public class Map {
 	public static void moveEnimies() {
 		Integer		i = 0;
 		Point		toMove = enemies[i];
-		Point		go = toMove;
-		Integer		perfectStep = 101;
+		Point		go;
+		Integer		perfectStep;
 
 		//setSteps();
 		while (i < set.enemiesCount) {
 			setSteps();
-			printSteps();
+			//printSteps();
+			go = enemies[i];
+			perfectStep = 101;
 			if (	toMove.yPos - 1 >= 0 &&
 					map[toMove.yPos - 1][toMove.xPos].type == set.empty &&
 					perfectStep > map[toMove.yPos - 1][toMove.xPos].step) {
 				perfectStep = map[toMove.yPos - 1][toMove.xPos].step;
 				go = map[toMove.yPos - 1][toMove.xPos];
 			}
-			else if (	toMove.yPos + 1 < set.size - 1 &&
+			if (	toMove.yPos + 1 < set.size - 1 &&
 						map[toMove.yPos + 1][toMove.xPos].type == set.empty &&
 						perfectStep > map[toMove.yPos + 1][toMove.xPos].step) {
 				perfectStep = map[toMove.yPos + 1][toMove.xPos].step;
 				go = map[toMove.yPos + 1][toMove.xPos];
 			}
-			else if (	toMove.xPos + 1 < set.size - 1 &&
+			if (	toMove.xPos + 1 < set.size - 1 &&
 						map[toMove.yPos][toMove.xPos + 1].type == set.empty &&
 						perfectStep > map[toMove.yPos][toMove.xPos + 1].step) {
 				perfectStep = map[toMove.yPos][toMove.xPos + 1].step;
 				go = map[toMove.yPos][toMove.xPos + 1];
 			}
-			else if (	toMove.xPos - 1 >= 0 &&
+			if (	toMove.xPos - 1 >= 0 &&
 						map[toMove.yPos][toMove.xPos - 1].type == set.empty &&
 						perfectStep > map[toMove.yPos][toMove.xPos - 1].step) {
 				perfectStep = map[toMove.yPos][toMove.xPos - 1].step;
-				go = map[toMove.yPos][toMove.xPos -1];
+				go = map[toMove.yPos][toMove.xPos - 1];
 			}
 			movePoint(enemies[i], go, i);
 			clearSteps();
